@@ -30,28 +30,30 @@ mutable struct GAmodel
     objFunction::Function
 end
 
-function predict(GAmodel,population
+function predict(GAmodel, population
     )
     populationSize = size(population, 1)
     geneSize = size(population, 2)
 
     bestIndividual = population[1]
-    bestloss = Inf32
+    bestfit = 0
+    fitness = zeros(populationSize)
 
-    for _ in  1:GAmodel.GAParameter.iterations
-        println("start select")
-        selected = GAmodel.GAFunction.select(population)
+    for i in 1:populationSize
+        fitness[i] = GAmodel.objFunction(population[i])
+    end
 
-        # matingのパラメータ;matingのメソッドはcrossover
-        println("start crossover")
+    for iter in  1:GAmodel.GAParameter.iterations
+        # select
+        selected = GAmodel.GAFunction.select(population, fitness)
+
+        # crossover
         offspring = reshape(zeros(length(population)), (populationSize, geneSize))
         for i in 1:div(populationSize, 2)
             offspring[2 * i - 1, :], offspring[2 * i, :] = GAmodel.GAFunction.crossover(selected[2 * i - 1,:], selected[2 * i,:])
         end
 
         # mutate
-        println("start mutate")
-        fitness = zeros(populationSize)
         for i in 1:populationSize
             population[i,:] = GAmodel.GAFunction.mutate(offspring[i,:], GAmodel.GAParameter.mutationRate)
             fitness[i] = GAmodel.objFunction(population[i,:])
@@ -59,19 +61,24 @@ function predict(GAmodel,population
 
         # elitism
         # TODO
-        println("no elite")
 
         fitidx = sortperm(fitness, rev=true)
         _bestIndividual = population[fitidx[1]]
-        _bestloss = fitness[fitidx[1]]
-        if bestloss > _bestloss
+        _bestfit = fitness[fitidx[1]]
+        if bestfit < _bestfit
             bestIndividual = _bestIndividual
-            bestloss = _bestloss
+            bestfit = _bestfit
+        end
+
+        if iter % 50 == 0
+            print("iter ", iter)
+            println(" bestfit ", bestfit)
+            println("bestIndividual", bestIndividual)
         end
 
     end
-    print("bestFitness", bestloss)
-    return bestIndividual, bestloss
+    print("bestFitness", bestfit)
+    return bestIndividual, bestfit
 end
 
 function fit!(GAmodel, X, y
