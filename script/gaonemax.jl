@@ -13,10 +13,10 @@ function main()
                          )
 
     select = GATool.selectroulette
-    crossover = GATool.crossoverOne
+    crossover = GATool.crossoverone
     mutate = GATool.mutaterandom
     gafunc = GA.GAFunction(select, crossover, mutate)
-    model = GA.GAmodel(
+    model = GA.GAModel(
         gaparam,
         gafunc,
         objfunc

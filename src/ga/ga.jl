@@ -8,14 +8,11 @@ using Random
 
 
 mutable struct GAParameter
-    #popilationSize
     #lowerBounds
     #upperBounds
     crossoverRate::Float64
     mutationRate::Float64
-    #N::Int = 1
     iterations::Integer
-    #e::Real = 0
 end
 
 mutable struct GAFunction
@@ -24,13 +21,13 @@ mutable struct GAFunction
     mutate::Function
 end
 
-mutable struct GAmodel
+mutable struct GAModel
     GAParameter::GAParameter
     GAFunction::GAFunction
-    objFunction::Function
+    objfunction::Function
 end
 
-function predict(GAmodel, population
+function predict(GAModel, population
     )
     populationSize = size(population, 1)
     geneSize = size(population, 2)
@@ -40,23 +37,23 @@ function predict(GAmodel, population
     fitness = zeros(populationSize)
 
     for i in 1:populationSize
-        fitness[i] = GAmodel.objFunction(population[i])
+        fitness[i] = GAModel.objfunction(population[i])
     end
 
-    for iter in  1:GAmodel.GAParameter.iterations
+    for iter in  1:GAModel.GAParameter.iterations
         # select
-        selected = GAmodel.GAFunction.select(population, fitness)
+        selected = GAModel.GAFunction.select(population, fitness)
 
         # crossover
         offspring = reshape(zeros(length(population)), (populationSize, geneSize))
         for i in 1:div(populationSize, 2)
-            offspring[2 * i - 1, :], offspring[2 * i, :] = GAmodel.GAFunction.crossover(selected[2 * i - 1,:], selected[2 * i,:])
+            offspring[2 * i - 1, :], offspring[2 * i, :] = GAModel.GAFunction.crossover(selected[2 * i - 1,:], selected[2 * i,:])
         end
 
         # mutate
         for i in 1:populationSize
-            population[i,:] = GAmodel.GAFunction.mutate(offspring[i,:], GAmodel.GAParameter.mutationRate)
-            fitness[i] = GAmodel.objFunction(population[i,:])
+            population[i,:] = GAModel.GAFunction.mutate(offspring[i,:], GAModel.GAParameter.mutationRate)
+            fitness[i] = GAModel.objfunction(population[i,:])
         end
 
         # elitism
@@ -81,39 +78,8 @@ function predict(GAmodel, population
     return bestIndividual, bestfit
 end
 
-function fit!(GAmodel, X, y
+function fit!(GAModel, X, y
     )
     println("gene aligorithm needs no train")
-    return GAmodel
+    return GAModel
 end
-
-
-# 0 means tobe late
-function main()
-    individuals = reshape(rand(1:10, 100), (10, 10))
-    population = individuals
-    crossoverRate = 0.5
-    mutationRate = 0.1
-    iterations = 100
-    gaparam = GAParameter(
-                         crossoverRate,
-                         mutationRate,
-                         iterations
-                         )
-    gafunc = GAFunction(selectrandom,crossoverOne,mutaterandom)
-    model = GAmodel(
-        gaparam,
-        gafunc,
-        objfunc
-    )
-    predict(model, population)
-end
-
-function objfunc(individual)
-    0
-end
-
-
-
-
-main()

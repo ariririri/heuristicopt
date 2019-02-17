@@ -15,7 +15,7 @@ function main()
     crossover = GATool.crossoverOne
     mutate = GATool.mutaterandom
     gafunc = GA.GAFunction(select, crossover, mutate)
-    model = GA.GAmodel(
+    model = GA.GAModel(
         gaparam,
         gafunc,
         objfunc

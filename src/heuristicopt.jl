@@ -3,7 +3,7 @@ __precompile__()
 
 module heuristicopt
 
-export GA, GATool
+export GA, GATool, SA
 
 module GA
 include("ga/ga.jl")
@@ -15,6 +15,10 @@ include("ga/crossover.jl")
 include("ga/elite.jl")
 include("ga/mutate.jl")
 include("ga/select.jl")
+end
+
+module SA
+include("sa/simulatedannealing.jl")
 end
 
 end # heruristing opt end
