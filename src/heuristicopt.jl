@@ -1,5 +1,20 @@
+
+__precompile__()
+
 module heuristicopt
 
-greet() = print("Hello World!")
+export GA, GATool
 
-end # module
+module GA
+include("ga/ga.jl")
+export GAFunction, GAParameter
+end
+
+module GATool
+include("ga/crossover.jl")
+include("ga/elite.jl")
+include("ga/mutate.jl")
+include("ga/select.jl")
+end
+
+end # heruristing opt end
