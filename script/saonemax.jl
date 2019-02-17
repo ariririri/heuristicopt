@@ -9,8 +9,6 @@ function main()
     param = SA.SAParameter(tmin, tmax, steps)
     model = SA.SAModel(param, move, objfunc)
     besttrial = SA.predict(model, initsate)
-    print("best fitness is ", besttrial.energy)
-    print("best paramaeter is ", besttrial.state)
 end
 
 function move(array)

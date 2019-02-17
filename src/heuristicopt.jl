@@ -21,4 +21,4 @@ module SA
 include("sa/simulatedannealing.jl")
 end
 
-end # heruristing opt end
+end 
