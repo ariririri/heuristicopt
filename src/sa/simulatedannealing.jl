@@ -19,6 +19,10 @@ mutable struct Trial
     energy::Float32
 end
 
+function fit!(SAModel, X, y)
+    println("Simulated Annealing needs not to train")
+    SAModel
+end
 
 function predict(
     SAModel,
