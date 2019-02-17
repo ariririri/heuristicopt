@@ -1,14 +1,11 @@
 # Sklearn
 
 Pythonでは機械学習のデファクトとしてsklearnがある.
-Juliaではどう使うかを考えたい.
-
-Juliaはfunctionが大事なので、functionの引数にモデル,データとすればよいことがわかってきた.
+JuliaらしくかつSklearnのように書くのはどうするべきか。
 
 
-返り値がわかってきた.
-
-selfを第一引数にして、返り値をselfにする
+Juliaはfunctionが重要なので、Sklearn.jlを見てもfunctionの引数にモデル,データとしている。
+例えば以下。
 
 
 ```julia
@@ -42,4 +39,4 @@ function ScikitLearnBase.predict(model::NaiveBayes, X)
     .... # returns a vector of predicted classes here
 end
 ```
-これを中心に記述する
+これを中心に記述する。
