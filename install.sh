@@ -2,5 +2,5 @@
 
 julia <<EOF
 using Pkg
-Pkg.clone("https://github.com/ariririri/heuristicopt.jl")
+Pkg.add(PackageSpec(url = "https://github.com/ariririri/heuristicopt.jl"))
 EOF
